@@ -1,13 +1,17 @@
+# Windows executable creator
+pyinstaller --onefile --add-data ".env;." main.py
+   pyinstaller my_assistant.spec
+
 # Fast Personal AI Assistant
 > Fast TTS & STT
 >
-> A quick start personal AI assistant framework using OpenAI, Groq, AssemblyAI and ElevenLabs.
+> A quick start personal AI assistant framework using OpenAI, Groq, and ElevenLabs.
 
 ![own-your-ai](./img/own-your-ai.png)
 
 ## Setup
 
-- Create and activate virtual environment:
+### Create and activate virtual environment:
   ```bash
   python -m venv venv
   source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
@@ -43,7 +47,6 @@
 [CONTROL your Personal AI Assistant with GPT-4o mini & ElevenLabs](https://youtu.be/ikaKpfUOb0U)
 
 ## Resources
-- https://www.assemblyai.com/ 
 - https://console.groq.com/docs/speech-text
 - https://console.groq.com/docs/libraries
 - https://platform.openai.com/docs/guides/speech-to-text

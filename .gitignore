@@ -1,18 +1,26 @@
+# Aider cache files
 .aider.ident.cache.v1
 .aider.tags.cache.v1
 .aider.chat.history.md
 .aider.input.history
 
+# Log files
 log.txt
 
+# Agent results directory
 agent_results/
 
+# Vercel deployment files
 .vercel
+
+# Log files
 *.log
+
+# Python bytecode files
 *.pyc
 __pycache__
 
-# Environments 
+# Environment files and directories
 .env 
 .venv 
 env/ 
@@ -25,12 +33,15 @@ venv.bak/
 .env.billing.yaml
 .env.billing.yml
 
+# Aider related files
 .aider*
 
+# Audio files
 *.wav
 **.pyc
 modules/__pycache__
 
+# Media files
 *.mp3
 *.mp4
 *.wav
@@ -40,4 +51,12 @@ modules/__pycache__
 *.m4a
 *.mp4
 
+# JSON files
 *.json
+
+# Build and distribution directories
+/build/
+/dist/
+
+/notes/
+/screenshots/

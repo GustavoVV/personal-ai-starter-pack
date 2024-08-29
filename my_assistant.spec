@@ -1,0 +1,57 @@
+# -*- mode: python ; coding: utf-8 -*-
+
+
+a = Analysis(
+    ['main.py'],
+    pathex=['.'],
+    binaries=[],
+    datas=[('.env', '.')],  # Ensure the .env file is included
+    hiddenimports=[
+        'llm.default_plugins',
+        'llm.default_plugins.openai_models',
+        'pkg_resources',
+        'setuptools',
+        'importlib_metadata',
+        'importlib_resources',
+        'zipp',
+        'jaraco.text',
+        'jaraco.functools',
+        'more_itertools',
+        'backports',
+        'tomli',
+        'platformdirs',
+        'wheel',
+        'websockets',
+        'six.moves',
+        'sqlite3',
+        # Add any other missing modules here
+    ],
+    hookspath=[],
+    hooksconfig={},
+    runtime_hooks=[],
+    excludes=[],
+    noarchive=False,
+    optimize=0,
+)
+pyz = PYZ(a.pure)
+
+exe = EXE(
+    pyz,
+    a.scripts,
+    a.binaries,
+    a.datas,
+    [],
+    name='my_assistant',
+    debug=False,
+    bootloader_ignore_signals=False,
+    strip=False,
+    upx=True,
+    upx_exclude=[],
+    runtime_tmpdir=None,
+    console=True,
+    disable_windowed_traceback=False,
+    argv_emulation=False,
+    target_arch=None,
+    codesign_identity=None,
+    entitlements_file=None,
+)

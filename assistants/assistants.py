@@ -6,7 +6,6 @@ import wave
 import os
 import json
 from datetime import datetime
-import assemblyai as aai
 from elevenlabs import play
 from elevenlabs.client import ElevenLabs
 from modules.constants import ELEVEN_LABS_CRINGE_VOICE, ELEVEN_LABS_PRIMARY_SOLID_VOICE
@@ -83,38 +82,6 @@ class PersonalAssistantFramework(abc.ABC):
     @abc.abstractmethod
     def think(self, prompt: str) -> str:
         pass
-
-
-class AssElevenPAF(PersonalAssistantFramework):
-    def setup(self):
-        aai.settings.api_key = os.getenv("ASSEMBLYAI_API_KEY")
-        self.elevenlabs_client = ElevenLabs(api_key=os.getenv("ELEVEN_API_KEY"))
-        self.llm_model = build_mini_model()
-
-    @PersonalAssistantFramework.timeit_decorator
-    def generate_voice_audio(self, text: str):
-        audio_generator = self.elevenlabs_client.generate(
-            text=text,
-            voice=ELEVEN_LABS_PRIMARY_SOLID_VOICE,
-            model="eleven_turbo_v2",
-            stream=False,
-        )
-        audio_bytes = b"".join(list(audio_generator))
-        return audio_bytes
-
-    @PersonalAssistantFramework.timeit_decorator
-    def transcribe(self, file_path):
-        transcriber = aai.Transcriber()
-        transcript = transcriber.transcribe(file_path)
-        return transcript.text
-
-    def speak(self, text: str):
-        audio = self.generate_voice_audio(text)
-        play(audio)
-
-    @PersonalAssistantFramework.timeit_decorator
-    def think(self, thought: str) -> str:
-        return prompt(self.llm_model, thought)
 
 
 class OpenAIPAF(PersonalAssistantFramework):
