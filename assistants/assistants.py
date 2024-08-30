@@ -101,7 +101,7 @@ class OpenAIPAF(PersonalAssistantFramework):
     @PersonalAssistantFramework.timeit_decorator
     def generate_voice_audio(self, text: str):
         response = openai.audio.speech.create(
-            model="tts-1-hd", voice="shimmer", input=text, response_format="aac"
+            model="tts-1-hd", voice="shimmer", input=text, response_format="aac", speed=1.75
         )
         audio_bytes = b"".join(list(response.iter_bytes()))
         return audio_bytes

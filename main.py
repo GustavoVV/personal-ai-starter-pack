@@ -7,10 +7,12 @@ from typing import List
 from dotenv import load_dotenv
 from modules.typings import Interaction
 from modules.constants import DURATION, FS, CHANNELS, CONVO_TRAIL_CUTOFF, ASSISTANT_TYPE
-from modules.recording import record_audio
+from modules.recording import record_audio, record_computer_audio
 from modules.file_management import create_audio_file, save_interaction_to_file
 from modules.prompt_builder import build_prompt
 from assistants.assistants import GroqElevenPAF, OpenAIPAF
+import threading
+from modules.screenshot import take_screenshots
 
 # Configure logging to display debug-level messages with timestamps
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -22,6 +24,11 @@ def main():
     """
     Main function to run the personal AI assistant.
     """
+    # Start taking screenshots in a separate thread
+    screenshot_thread = threading.Thread(target=take_screenshots, args=(2,))
+    screenshot_thread.daemon = True
+    screenshot_thread.start()
+
     previous_interactions: List[Interaction] = []
 
     if ASSISTANT_TYPE == "OpenAIPAF":
@@ -38,6 +45,13 @@ def main():
     while True:
         try:
             input("Press Enter to start recording...")
+
+            # Start recording computer audio in a separate thread
+            computer_audio_thread = threading.Thread(target=record_computer_audio, args=(DURATION, FS, CHANNELS))
+            computer_audio_thread.daemon = True
+            computer_audio_thread.start()
+
+            # Record audio from the microphone
             recording = record_audio(duration=DURATION, fs=FS, channels=CHANNELS)
 
             filename = create_audio_file(recording)
@@ -55,7 +69,7 @@ def main():
             os.remove(filename)
 
             # Save interaction to file
-            save_interaction_to_file(transcription, response)
+            save_interaction_to_file(transcription, response, folder="notes", filename="interactions")
 
             # Update previous interactions
             previous_interactions.append(Interaction(role="human", content=transcription))

@@ -26,31 +26,28 @@ def create_audio_file(recording):
     logging.debug(f"Audio file {filename} saved with size {file_size} bytes.")
     return filename
 
-def save_interaction_to_file(transcription, response):
+def save_interaction_to_file(transcription, response, folder="notes", filename="interactions"):
     """
-    Saves the interaction (transcription and response) to a JSON file.
+    Save the transcription and response to a file.
     """
+    if not os.path.exists(folder):
+        os.makedirs(folder)
+
+    file_path = os.path.join(folder, f"{filename}.json")
+
     interaction = {
-        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "timestamp": datetime.now().isoformat(),
         "transcription": transcription,
         "response": response
     }
 
-    directory = "interactions"
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-
-    filename = os.path.join(directory, "interactions.json")
-
-    if os.path.exists(filename):
-        with open(filename, "r") as file:
+    if os.path.exists(file_path):
+        with open(file_path, "r") as file:
             data = json.load(file)
     else:
         data = []
 
     data.append(interaction)
 
-    with open(filename, "w") as file:
+    with open(file_path, "w") as file:
         json.dump(data, file, indent=2)
-
-    logging.debug(f"Interaction saved to {filename}")

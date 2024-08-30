@@ -1,5 +1,4 @@
 # Windows executable creator
-pyinstaller --onefile --add-data ".env;." main.py
    pyinstaller my_assistant.spec
 
 # Fast Personal AI Assistant
